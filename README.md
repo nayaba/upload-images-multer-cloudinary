@@ -84,7 +84,9 @@ module.exports = Listing
 ---
 
 ### **Step 3: Configure Multer with Cloudinary**
-1. Create a storage configuration for Multer using `multer-storage-cloudinary`:
+1. Add a `config/multer.js` file.
+
+2. Create a storage configuration for Multer using `multer-storage-cloudinary`:
    ```javascript
    const multer = require("multer");
    const { CloudinaryStorage } = require("multer-storage-cloudinary");
@@ -102,9 +104,6 @@ module.exports = Listing
 
    module.exports = upload;
    ```
-
-   Save this as `config/multer.js`.
-
 ---
 
 ### **Step 4: Add a Route for Image Uploads**
