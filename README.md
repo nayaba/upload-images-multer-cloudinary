@@ -143,7 +143,7 @@ module.exports = Listing
 ---
 
 ### **Step 5: Update Your Frontend**
-1. In `views/listings/new.ejs` ensure your form includes a file input for uploading images:
+1. In `views/listings/new.ejs` ensure your form includes a file input type for uploading images and an `enctype` attribute in the `form` tag:
    ```html
         <form action="/listings/<%= user._id %>" method="POST" enctype="multipart/form-data">
             <label for="">Street Address: </label>
@@ -215,7 +215,7 @@ If you need to allow updates to a listing’s image:
     });
     ```
     
-3. In `views/listings/edit.ejs` ensure your form includes a file input type for uploading images and enctype in the `form` tag:
+3. In `views/listings/edit.ejs` ensure your form includes a file input type for uploading images and an `enctype` attribute in the `form` tag:
    ```html
         <form action="/listings/<%= user._id %>/<%= listing._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
             <label for="">Street Address: </label>
