@@ -170,7 +170,7 @@ module.exports = Listing
 2. Edit your `views/listings/index.ejs` and `views/listings/show.ejs` to display the uploaded image url from Multer:
     ```html
     <div class="card mt-2" style="width: 18rem;">
-        <!-- change listing.imgUrl to listing.imgUrl.url -->
+        <!-- change the img src below from listing.imgUrl to listing.imgUrl.url -->
         <img src="<%= listing.imgUrl.url %>" class="card-img-top" alt="listing for <%= listing.streetAddress %>">
         <div class="card-body">
             <h5 class="card-title">$<%= listing.price %></h5>
