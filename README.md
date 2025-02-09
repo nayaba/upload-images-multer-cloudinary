@@ -190,29 +190,28 @@ If you need to allow updates to a listing’s image:
     ```javascript
     const cloudinary = require("../config/cloudinary") // require Cloudinary in the controller file
 
-    router.put("/listings/:id", upload.single("image"), async (req, res) => {
-      try {
-        const listing = await Listing.findById(req.params.id);
-        if (!listing) return res.status(404).json({ message: "Listing not found" });
+    const update = async (req, res) => {
+        try {
+            const listing = await Listing.findById(req.params.listingId)
     
-        // Delete the old image from Cloudinary
-        await cloudinary.uploader.destroy(listing.image.cloudinary_id);
+            // Delete the old image from Cloudinary
+            await cloudinary.uploader.destroy(listing.imgUrl.cloudinary_id);
+            req.body.imgUrl = {
+                url: req.file.path, // Cloudinary URL
+                cloudinary_id: req.file.filename, // Cloudinary public ID
+            }
     
-        // Update listing with the new image
-        listing.title = req.body.title || listing.title;
-        listing.description = req.body.description || listing.description;
-        listing.price = req.body.price || listing.price;
-        listing.image = {
-          url: req.file.path, // New Cloudinary URL
-          cloudinary_id: req.file.filename, // New Cloudinary public ID
-        };
-    
-        const updatedListing = await listing.save();
-        res.json(updatedListing);
-      } catch (error) {
-        res.status(500).json({ message: error.message });
-      }
-    });
+            await Listing.findByIdAndUpdate(
+                req.params.listingId,
+                req.body,
+                { new: true }
+            )
+            res.redirect(`/listings/${listing._id}`)
+        } catch (error) {
+            console.log(error)
+            res.redirect('/')
+        }
+    }
     ```
     
 3. In `views/listings/edit.ejs` ensure your form includes a file input type for uploading images and an `enctype` attribute in the `form` tag:
