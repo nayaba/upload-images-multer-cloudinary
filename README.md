@@ -143,7 +143,7 @@ module.exports = Listing
 3. Use Multer's middleware in your route for posting listing form data.
 
     ```js
-    app.post('/listings/:userId', upload.single("image"), listingsCtrl.createListing)
+    app.post('/listings/:userId', upload.single("imgUrl"), listingsCtrl.createListing)
     ```
     
 ---
