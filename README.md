@@ -180,32 +180,58 @@ module.exports = Listing
 
 #### **Update an Existing Listing with an Image**
 If you need to allow updates to a listing’s image:
-```javascript
-router.put("/listings/:id", upload.single("image"), async (req, res) => {
-  try {
-    const listing = await Listing.findById(req.params.id);
-    if (!listing) return res.status(404).json({ message: "Listing not found" });
 
-    // Delete the old image from Cloudinary
-    const cloudinary = require("../config/cloudinary");
-    await cloudinary.uploader.destroy(listing.image.cloudinary_id);
+1. Use Multer's middleware in your `put` route for updating listing form data.
+    ```js
+    app.put('/listings/:userId/:listingId', upload.single("imgUrl"), listingsCtrl.update)
+    ```
+    
+2. In your `listings.controller`, modify the function for updating listings with image uploads.
+    ```javascript
+    const cloudinary = require("../config/cloudinary") // require Cloudinary in the controller file
 
-    // Update listing with the new image
-    listing.title = req.body.title || listing.title;
-    listing.description = req.body.description || listing.description;
-    listing.price = req.body.price || listing.price;
-    listing.image = {
-      url: req.file.path, // New Cloudinary URL
-      cloudinary_id: req.file.filename, // New Cloudinary public ID
-    };
-
-    const updatedListing = await listing.save();
-    res.json(updatedListing);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-```
+    router.put("/listings/:id", upload.single("image"), async (req, res) => {
+      try {
+        const listing = await Listing.findById(req.params.id);
+        if (!listing) return res.status(404).json({ message: "Listing not found" });
+    
+        // Delete the old image from Cloudinary
+        await cloudinary.uploader.destroy(listing.image.cloudinary_id);
+    
+        // Update listing with the new image
+        listing.title = req.body.title || listing.title;
+        listing.description = req.body.description || listing.description;
+        listing.price = req.body.price || listing.price;
+        listing.image = {
+          url: req.file.path, // New Cloudinary URL
+          cloudinary_id: req.file.filename, // New Cloudinary public ID
+        };
+    
+        const updatedListing = await listing.save();
+        res.json(updatedListing);
+      } catch (error) {
+        res.status(500).json({ message: error.message });
+      }
+    });
+    ```
+    
+3. In `views/listings/edit.ejs` ensure your form includes a file input type for uploading images and enctype in the `form` tag:
+   ```html
+        <form action="/listings/<%= user._id %>/<%= listing._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+            <label for="">Street Address: </label>
+            <input type="text" name="streetAddress" value="<%= listing.streetAddress %>">
+            <label for="">City: </label>
+            <input type="text" name="city" value="<%= listing.city %>">
+            <label for="">Price: </label>
+            <input type="number" name="price" value="<%= listing.price %>">
+            <label for="">Size: </label>
+            <input type="text" name="size" value="<%= listing.size %>">
+            <label for="">Image: </label>
+            <input type="file" name="imgUrl" accept="image/*" required />
+            <button type="submit" class="btn btn-primary">Edit Listing</button>
+        </form>
+   ```
+   
 
 ---
 
