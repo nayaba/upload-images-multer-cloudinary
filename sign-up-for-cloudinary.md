@@ -39,9 +39,4 @@ Here’s where you find each:
 
 ---
 
-### **5. (Optional) Create an API Environment (Optional for Advanced Use)**
-- If you need different API keys for specific environments (e.g., testing, production), you can create API environments under the **Settings > Security** section in Cloudinary.
-
----
-
 Once you’ve added these credentials to your `.env` file, restart your server to apply the environment variables.
