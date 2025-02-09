@@ -196,6 +196,8 @@ If you need to allow updates to a listing’s image:
     
             // Delete the old image from Cloudinary
             await cloudinary.uploader.destroy(listing.imgUrl.cloudinary_id);
+
+            // Add the new image to the form data
             req.body.imgUrl = {
                 url: req.file.path, // Cloudinary URL
                 cloudinary_id: req.file.filename, // Cloudinary public ID
@@ -258,6 +260,8 @@ router.delete("/listings/:id", async (req, res) => {
 
     // Delete image from Cloudinary
     const cloudinary = require("../config/cloudinary");
+
+    
     await cloudinary.uploader.destroy(listing.image.cloudinary_id);
 
     // Delete listing from database
