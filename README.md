@@ -107,32 +107,26 @@ module.exports = Listing
 ---
 
 ### **Step 4: Add a Route for Image Uploads**
-1. In your `routes` folder, modify or add a route for creating or updating listings with image uploads.
+1. In your `listings.controller`, modify the function for creating listings with image uploads.
     #### **Create a New Listing with an Image**
     
     ```javascript
-        const Listing = require("../models/Listing");
-        
-        // POST route to create a new listing with an image
-        router.post("/listings", upload.single("image"), async (req, res) => {
-          try {
-            const newListing = new Listing({
-              title: req.body.title,
-              description: req.body.description,
-              price: req.body.price,
-              image: {
+    const createListing = async (req, res) => {
+        console.log(req.file)
+        try {
+            // req.body.owner = req.session.user._id
+            req.body.imgUrl = {
                 url: req.file.path, // Cloudinary URL
                 cloudinary_id: req.file.filename, // Cloudinary public ID
-              },
-            });
-            const savedListing = await newListing.save();
-            res.status(201).json(savedListing);
-          } catch (error) {
-            res.status(500).json({ message: error.message });
-          }
-        });
-        
-        module.exports = router;
+            }
+            req.body.owner = req.params.userId
+            await Listing.create(req.body)
+            res.redirect('/listings')
+        } catch (error) {
+            console.log(error)
+    
+        }
+    }
     ```
 
 2. In your `server.js` file, import Multer.
