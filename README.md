@@ -142,7 +142,7 @@ In your `routes` folder, modify or add a route for creating or updating listings
 ---
 
 ### **Step 5: Update Your Frontend**
-1. **Frontend Form for Adding/Editing Listings**:
+**Frontend Form for Adding/Editing Listings**:
    Ensure your frontend includes a file input for uploading images:
    ```html
    <form action="/listings" method="POST" enctype="multipart/form-data">
@@ -152,24 +152,6 @@ In your `routes` folder, modify or add a route for creating or updating listings
      <input type="file" name="image" accept="image/*" required />
      <button type="submit">Create Listing</button>
    </form>
-   ```
-
-2. **Use FormData for API Requests**:
-   If you’re using JavaScript (e.g., React), send the form data with `FormData`:
-   ```javascript
-   const formData = new FormData();
-   formData.append("title", title);
-   formData.append("description", description);
-   formData.append("price", price);
-   formData.append("image", imageFile);
-
-   fetch("/listings", {
-     method: "POST",
-     body: formData,
-   })
-     .then((response) => response.json())
-     .then((data) => console.log(data))
-     .catch((error) => console.error(error));
    ```
 
 ---
