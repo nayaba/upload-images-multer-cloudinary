@@ -149,8 +149,7 @@ module.exports = Listing
 ---
 
 ### **Step 5: Update Your Frontend**
-**Frontend Form for Adding/Editing Listings**:
-   Ensure your frontend includes a file input for uploading images:
+1. In `views/listings/new.ejs` ensure your form includes a file input for uploading images:
    ```html
         <form action="/listings/<%= user._id %>" method="POST" enctype="multipart/form-data">
             <label for="">Street Address: </label>
@@ -167,6 +166,21 @@ module.exports = Listing
             <button type="submit" class="btn btn-primary">Add Listing</button>
         </form>
    ```
+
+2. Edit your `views/listings/index.ejs` and `views/listings/show.ejs` to display the uploaded image url from Multer:
+    ```html
+    <div class="card mt-2" style="width: 18rem;">
+        <!-- change listing.imgUrl to listing.imgUrl.url -->
+        <img src="<%= listing.imgUrl.url %>" class="card-img-top" alt="listing for <%= listing.streetAddress %>">
+        <div class="card-body">
+            <h5 class="card-title">$<%= listing.price %></h5>
+            <p class="card-text"><%= listing.streetAddress %></p>
+            <a href="/listings/<%= listing._id %>" class="btn btn-primary">View Details</a>
+        </div>
+    </div>
+    ```
+
+
 
 ---
 
