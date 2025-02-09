@@ -140,6 +140,11 @@ module.exports = Listing
     ```js
     const upload = require("../config/multer"); // Import Multer
     ```
+3. Use Multer's middleware in your route for posting listing form data.
+
+    ```js
+    app.post('/listings/:userId', upload.single("image"), listingsCtrl.createListing)
+    ```
     
 ---
 
