@@ -110,7 +110,8 @@ module.exports = Listing
 In your `routes` folder, modify or add a route for creating or updating listings with image uploads.
 
 #### **Create a New Listing with an Image**
-    ```javascript
+
+```javascript
     const express = require("express");
     const router = express.Router();
     const Listing = require("../models/Listing");
@@ -136,7 +137,7 @@ In your `routes` folder, modify or add a route for creating or updating listings
     });
     
     module.exports = router;
-    ```
+```
 
 #### **Update an Existing Listing with an Image**
 If you need to allow updates to a listing’s image:
