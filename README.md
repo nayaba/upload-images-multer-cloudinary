@@ -56,7 +56,15 @@ module.exports = Listing
    npm install cloudinary multer multer-storage-cloudinary
    ```
 
-2. **Set Up Cloudinary Configuration**:
+2. **[Sign Up for a Cloudinary Account](sign-up-for-cloudinary.md)**
+   Ensure your `.env` file contains:
+   ```plaintext
+   CLOUDINARY_CLOUD_NAME=your_cloud_name
+   CLOUDINARY_API_KEY=your_api_key
+   CLOUDINARY_API_SECRET=your_api_secret
+   ```
+  
+3.  **Set Up Cloudinary Configuration**:
    Add a `config/cloudinary.js` file:
    ```javascript
    const cloudinary = require("cloudinary").v2;
@@ -71,13 +79,6 @@ module.exports = Listing
    });
 
    module.exports = cloudinary;
-   ```
-
-   Ensure your `.env` file contains:
-   ```plaintext
-   CLOUDINARY_CLOUD_NAME=your_cloud_name
-   CLOUDINARY_API_KEY=your_api_key
-   CLOUDINARY_API_SECRET=your_api_secret
    ```
 
 ---
