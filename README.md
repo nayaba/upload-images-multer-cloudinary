@@ -143,13 +143,20 @@ In your `routes` folder, modify or add a route for creating or updating listings
 **Frontend Form for Adding/Editing Listings**:
    Ensure your frontend includes a file input for uploading images:
    ```html
-   <form action="/listings" method="POST" enctype="multipart/form-data">
-     <input type="text" name="title" placeholder="Title" required />
-     <textarea name="description" placeholder="Description" required></textarea>
-     <input type="number" name="price" placeholder="Price" required />
-     <input type="file" name="image" accept="image/*" required />
-     <button type="submit">Create Listing</button>
-   </form>
+        <form action="/listings/<%= user._id %>" method="POST" enctype="multipart/form-data">
+            <label for="">Street Address: </label>
+            <input type="text" name="streetAddress">
+            <label for="">City: </label>
+            <input type="text" name="city">
+            <label for="">Price: </label>
+            <input type="number" name="price">
+            <label for="">Size: </label>
+            <input type="text" name="size">
+            <label for="">Image: </label>
+            <!-- <input type="text" name="imgUrl"> -->
+            <input type="file" name="imgUrl" accept="image/*" required />
+            <button type="submit" class="btn btn-primary">Add Listing</button>
+        </form>
    ```
 
 ---
