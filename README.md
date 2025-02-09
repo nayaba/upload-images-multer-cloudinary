@@ -53,7 +53,7 @@ module.exports = Listing
 1. **Install Dependencies**:
    If you haven’t already:
    ```bash
-   npm install cloudinary multer multer-storage-cloudinary dotenv
+   npm install cloudinary multer multer-storage-cloudinary
    ```
 
 2. **Set Up Cloudinary Configuration**:
