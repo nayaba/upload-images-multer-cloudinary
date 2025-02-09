@@ -110,33 +110,33 @@ module.exports = Listing
 In your `routes` folder, modify or add a route for creating or updating listings with image uploads.
 
 #### **Create a New Listing with an Image**
-```javascript
-const express = require("express");
-const router = express.Router();
-const Listing = require("../models/Listing");
-const upload = require("../config/multer");
-
-// POST route to create a new listing with an image
-router.post("/listings", upload.single("image"), async (req, res) => {
-  try {
-    const newListing = new Listing({
-      title: req.body.title,
-      description: req.body.description,
-      price: req.body.price,
-      image: {
-        url: req.file.path, // Cloudinary URL
-        cloudinary_id: req.file.filename, // Cloudinary public ID
-      },
+    ```javascript
+    const express = require("express");
+    const router = express.Router();
+    const Listing = require("../models/Listing");
+    const upload = require("../config/multer");
+    
+    // POST route to create a new listing with an image
+    router.post("/listings", upload.single("image"), async (req, res) => {
+      try {
+        const newListing = new Listing({
+          title: req.body.title,
+          description: req.body.description,
+          price: req.body.price,
+          image: {
+            url: req.file.path, // Cloudinary URL
+            cloudinary_id: req.file.filename, // Cloudinary public ID
+          },
+        });
+        const savedListing = await newListing.save();
+        res.status(201).json(savedListing);
+      } catch (error) {
+        res.status(500).json({ message: error.message });
+      }
     });
-    const savedListing = await newListing.save();
-    res.status(201).json(savedListing);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-module.exports = router;
-```
+    
+    module.exports = router;
+    ```
 
 #### **Update an Existing Listing with an Image**
 If you need to allow updates to a listing’s image:
