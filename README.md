@@ -112,10 +112,8 @@ In your `routes` folder, modify or add a route for creating or updating listings
 #### **Create a New Listing with an Image**
 
 ```javascript
-    const express = require("express");
-    const router = express.Router();
     const Listing = require("../models/Listing");
-    const upload = require("../config/multer");
+    const upload = require("../config/multer"); // Import Multer
     
     // POST route to create a new listing with an image
     router.post("/listings", upload.single("image"), async (req, res) => {
