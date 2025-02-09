@@ -139,35 +139,6 @@ In your `routes` folder, modify or add a route for creating or updating listings
     module.exports = router;
 ```
 
-#### **Update an Existing Listing with an Image**
-If you need to allow updates to a listing’s image:
-```javascript
-router.put("/listings/:id", upload.single("image"), async (req, res) => {
-  try {
-    const listing = await Listing.findById(req.params.id);
-    if (!listing) return res.status(404).json({ message: "Listing not found" });
-
-    // Delete the old image from Cloudinary
-    const cloudinary = require("../config/cloudinary");
-    await cloudinary.uploader.destroy(listing.image.cloudinary_id);
-
-    // Update listing with the new image
-    listing.title = req.body.title || listing.title;
-    listing.description = req.body.description || listing.description;
-    listing.price = req.body.price || listing.price;
-    listing.image = {
-      url: req.file.path, // New Cloudinary URL
-      cloudinary_id: req.file.filename, // New Cloudinary public ID
-    };
-
-    const updatedListing = await listing.save();
-    res.json(updatedListing);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-```
-
 ---
 
 ### **Step 5: Update Your Frontend**
@@ -200,6 +171,37 @@ router.put("/listings/:id", upload.single("image"), async (req, res) => {
      .then((data) => console.log(data))
      .catch((error) => console.error(error));
    ```
+
+---
+
+#### **Update an Existing Listing with an Image**
+If you need to allow updates to a listing’s image:
+```javascript
+router.put("/listings/:id", upload.single("image"), async (req, res) => {
+  try {
+    const listing = await Listing.findById(req.params.id);
+    if (!listing) return res.status(404).json({ message: "Listing not found" });
+
+    // Delete the old image from Cloudinary
+    const cloudinary = require("../config/cloudinary");
+    await cloudinary.uploader.destroy(listing.image.cloudinary_id);
+
+    // Update listing with the new image
+    listing.title = req.body.title || listing.title;
+    listing.description = req.body.description || listing.description;
+    listing.price = req.body.price || listing.price;
+    listing.image = {
+      url: req.file.path, // New Cloudinary URL
+      cloudinary_id: req.file.filename, // New Cloudinary public ID
+    };
+
+    const updatedListing = await listing.save();
+    res.json(updatedListing);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+```
 
 ---
 
