@@ -107,36 +107,40 @@ module.exports = Listing
 ---
 
 ### **Step 4: Add a Route for Image Uploads**
-In your `routes` folder, modify or add a route for creating or updating listings with image uploads.
-
-#### **Create a New Listing with an Image**
-
-```javascript
-    const Listing = require("../models/Listing");
-    const upload = require("../config/multer"); // Import Multer
+1. In your `routes` folder, modify or add a route for creating or updating listings with image uploads.
+    #### **Create a New Listing with an Image**
     
-    // POST route to create a new listing with an image
-    router.post("/listings", upload.single("image"), async (req, res) => {
-      try {
-        const newListing = new Listing({
-          title: req.body.title,
-          description: req.body.description,
-          price: req.body.price,
-          image: {
-            url: req.file.path, // Cloudinary URL
-            cloudinary_id: req.file.filename, // Cloudinary public ID
-          },
+    ```javascript
+        const Listing = require("../models/Listing");
+        
+        // POST route to create a new listing with an image
+        router.post("/listings", upload.single("image"), async (req, res) => {
+          try {
+            const newListing = new Listing({
+              title: req.body.title,
+              description: req.body.description,
+              price: req.body.price,
+              image: {
+                url: req.file.path, // Cloudinary URL
+                cloudinary_id: req.file.filename, // Cloudinary public ID
+              },
+            });
+            const savedListing = await newListing.save();
+            res.status(201).json(savedListing);
+          } catch (error) {
+            res.status(500).json({ message: error.message });
+          }
         });
-        const savedListing = await newListing.save();
-        res.status(201).json(savedListing);
-      } catch (error) {
-        res.status(500).json({ message: error.message });
-      }
-    });
-    
-    module.exports = router;
-```
+        
+        module.exports = router;
+    ```
 
+2. In your `server.js` file, import Multer.
+
+    ```js
+    const upload = require("../config/multer"); // Import Multer
+    ```
+    
 ---
 
 ### **Step 5: Update Your Frontend**
